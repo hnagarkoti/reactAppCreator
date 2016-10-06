@@ -42,6 +42,7 @@ router.get('/signup', function( req, res ) {
 // SIGNUP POST =========================
 // =====================================
 router.post('/signup', function( req, res ) {
+  console.log('req:- ', JSON.stringify(req.body));
   res.render('login');
 });
 
