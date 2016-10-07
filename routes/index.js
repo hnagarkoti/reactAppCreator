@@ -1,18 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-require('../config/passport')(passport);
+// require('../config/passport')(passport);
 function isLoggedIn(req, res, next) {
-
+console.log('isLoggedIn called',req.isAuthenticated());
     // if user is authenticated in the session, carry on
-    if (req.isAuthenticated())
-        return next();
+    if (req.isAuthenticated()){
+      console.log('inside isAuthenticated');
+      return next();
+    }
 
     // if they aren't redirect them to the home page
-    res.redirect('/');
+    res.redirect('/login');
 }
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', isLoggedIn, function(req, res, next) {
   res.render('index');
 });
 
