@@ -8,23 +8,26 @@ var ejs           = require('ejs');
 var passport      = require('passport');
 var flash         = require('connect-flash');
 var session       = require('express-session');
-
+var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var config = require('./config/database');
-
+require('./config/passport')(passport);
 var app = express();
 // Retrieve
-var MongoClient = require('mongodb').MongoClient;
+// var MongoClient = require('mongodb').MongoClient;
+
 app.set('port', 8080);
 // Connect to the db
-MongoClient.connect(config.hostName + config.database , function(err, db) {
-  if(err) { return console.dir(err); }
-  console.log('Mongo Db connected');
-  app.listen(app.get('port'), function(){
-    console.log('App Started listening on port ', app.get('port'));
-  });
-});
+// MongoClient.connect(config.hostName + config.database , function(err, db) {
+//   if(err) { return console.dir(err); }
+//   console.log('Mongo Db connected');
+  // app.listen(app.get('port'), function(){
+  //   console.log('App Started listening on port ', app.get('port'));
+  // });
+// });
+
+mongoose.connect(config.hostName + config.database);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', ejs.renderFile);
@@ -78,6 +81,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
+app.listen(app.get('port'), function(){
+  console.log('App Started listening on port ', app.get('port'));
+});
 
 module.exports = app;
