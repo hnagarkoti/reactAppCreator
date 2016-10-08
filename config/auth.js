@@ -1,24 +1,24 @@
 // config/auth.js
+var express = require('express');
+var router = express.Router();
+var passport = require('passport');
+var Auth = {};
+
+Auth.isLoggedIn = function(req, res, next){
+  console.log('isLoggedIn called',req.isAuthenticated());
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated()){
+    console.log('inside isAuthenticated');
+    return next();
+  }
+
+  // if they aren't redirect them to the home page
+  res.redirect('/login');
+}
+
+
+
+
 
 // expose our config directly to our application using module.exports
-module.exports = {
-
-    'facebookAuth' : {
-        'clientID'        : 'your-secret-clientID-here', // your App ID
-        'clientSecret'    : 'your-client-secret-here', // your App Secret
-        'callbackURL'     : 'http://localhost:8080/auth/facebook/callback'
-    },
-
-    'twitterAuth' : {
-        'consumerKey'        : 'your-consumer-key-here',
-        'consumerSecret'     : 'your-client-secret-here',
-        'callbackURL'        : 'http://localhost:8080/auth/twitter/callback'
-    },
-
-    'googleAuth' : {
-        'clientID'         : 'your-secret-clientID-here',
-        'clientSecret'     : 'your-client-secret-here',
-        'callbackURL'      : 'http://localhost:8080/auth/google/callback'
-    }
-
-};
+module.exports = Auth;
