@@ -40,7 +40,10 @@ router.post('/signup', passport.authenticate('local-signup', {
             failureFlash : true // allow flash messages
 }));
 
-
+router.get('/logout', function(req, res){
+    req.destroy();
+    res.render('/login');
+});
 
 
 module.exports = router;
