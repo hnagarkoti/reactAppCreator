@@ -1,20 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var Auth = require('../config/auth');
 // require('../config/passport')(passport);
-function isLoggedIn(req, res, next) {
-console.log('isLoggedIn called',req.isAuthenticated());
-    // if user is authenticated in the session, carry on
-    if (req.isAuthenticated()){
-      console.log('inside isAuthenticated');
-      return next();
-    }
 
-    // if they aren't redirect them to the home page
-    res.redirect('/login');
-}
 /* GET users listing. */
-router.get('/', isLoggedIn, function(req, res, next) {
+router.get('/', Auth.isLoggedIn, function(req, res, next) {
   res.render('index');
 });
 
@@ -41,8 +32,9 @@ router.post('/signup', passport.authenticate('local-signup', {
 }));
 
 router.get('/logout', function(req, res){
-    req.destroy();
-    res.render('/login');
+
+    req.logout();
+    res.redirect('/login');
 });
 
 
